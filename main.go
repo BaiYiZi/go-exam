@@ -1,19 +1,13 @@
 package main
 
 import (
-	"net/http"
-
+	"github.com/BaiYiZi/go-exam/router"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	r := gin.Default()
-
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
+	router.Register(r)
 
 	r.Run(":9090")
 }

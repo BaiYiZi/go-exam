@@ -19,6 +19,6 @@ func GetPingServiceFunc() (PingServiceFunc, error) {
 		return mongo.Ping, nil
 
 	default:
-		return nil, fmt.Errorf("found ping func")
+		return nil, fmt.Errorf("not found ping function")
 	}
 }

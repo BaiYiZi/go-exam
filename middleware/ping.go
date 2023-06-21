@@ -1,14 +1,14 @@
 package middleware
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/gin-gonic/gin"
 )
 
 func Ping() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		fmt.Println("Visit Ping")
+		log.Default().Print("Visit Ping")
 
 		c.Next()
 	}

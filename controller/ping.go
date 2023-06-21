@@ -4,29 +4,36 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/BaiYiZi/go-exam/model"
-	service "github.com/BaiYiZi/go-exam/service/api"
+	"github.com/BaiYiZi/go-exam/api"
 	"github.com/gin-gonic/gin"
 )
 
 func Ping(c *gin.Context) {
-	// Receive JSON parameters
-	req := model.Ping{}.RequestPing()
+	req := &struct {
+		Verify bool   `json:"verify"`
+		Name   string `json:"name"`
+	}{}
+
 	if err := c.BindJSON(req); err != nil {
-		fmt.Println("error", err)
+		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	// Verify parameters
-	if ok, err := req.VerifyParameters(); !ok {
-		fmt.Println("error", err)
+	if !req.Verify {
+		c.JSON(http.StatusBadRequest, fmt.Errorf("parameters is incorrect").Error())
 		return
 	}
 
-	// Get response through call service
-	response, err := service.Ping(req.Name)
+	pingServiceFunc, err := api.GetPingServiceFunc()
 	if err != nil {
-		fmt.Println("error", err)
+		c.JSON(http.StatusNotFound, err.Error())
+		return
+	}
+
+	response, err := pingServiceFunc(req.Name)
+	if err != nil {
+		c.JSON(http.StatusExpectationFailed, err.Error())
+
 		return
 	}
 

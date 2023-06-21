@@ -11,5 +11,5 @@ func Register(r *gin.Engine) {
 	v1.Use(middleware.Ping())
 
 	ping := v1.Group("/ping")
-	ping.POST("/", controller.Ping)
+	ping.POST("", controller.Ping)
 }

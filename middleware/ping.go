@@ -1,23 +1,15 @@
 package middleware
 
 import (
-	"log"
-	"time"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
 
 func Ping() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		t := time.Now()
+		fmt.Println("Visit Ping")
 
 		c.Next()
-
-		latency := time.Since(t)
-		log.Print(latency)
-
-		status := c.Writer.Status()
-
-		log.Println(status)
 	}
 }

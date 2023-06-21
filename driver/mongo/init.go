@@ -27,29 +27,25 @@ type config struct {
 func init() {
 	p, err := os.Getwd()
 	if err != nil {
-		fmt.Println(err)
-		return
+		panic(err)
 	}
 
 	filePath := path.Join(p, "config", "driver", "mongo", "config.yaml")
 	dataBytes, err := os.ReadFile(filePath)
 	if err != nil {
-		fmt.Println("error", err)
-		return
+		panic(err)
 	}
 
 	var cfg config
 	err = yaml.Unmarshal(dataBytes, &cfg)
 	if err != nil {
-		fmt.Println("error", err)
-		return
+		panic(err)
 	}
 
 	uri := fmt.Sprintf("mongodb://%s:%s@%s:%s/", cfg.User, cfg.Password, cfg.Host, cfg.Port)
 	clt, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
 	if err != nil {
-		fmt.Println("error", err)
-		return
+		panic(err)
 	}
 
 	client = clt

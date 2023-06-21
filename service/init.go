@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"os"
 	"path"
 
@@ -24,15 +23,13 @@ func init() {
 
 	dataBytes, err := os.ReadFile(filePath)
 	if err != nil {
-		fmt.Println("error", err)
-		return
+		panic(err)
 	}
 
 	var cfg config
 	err = yaml.Unmarshal(dataBytes, &cfg)
 	if err != nil {
-		fmt.Println("error", err)
-		return
+		panic(err)
 	}
 
 	db = cfg.DB
